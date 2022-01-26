@@ -22,7 +22,7 @@ const Player: React.FC<IPlayer> = ({ chips, cards, score, bet, startDeal, stand,
             </div>
             <div className="cardsContainer">
                 {cards.map((card) => (
-                    card.length > 0
+                    card
                         ? <img className="card" key={card} src={require(`../Cards/${card}.svg`)} alt={card} />
                         : null
                 ))}
