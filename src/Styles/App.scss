@@ -1,0 +1,21 @@
+html {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+body {
+    margin: 0px;
+    min-height: 100%;
+    width: 100%;
+    color: rgb(202, 211, 198);
+}
+
+
+.App {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(23, 124, 23, 0.74);
+}

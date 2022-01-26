@@ -1,0 +1,59 @@
+.playerContainer {
+  position: relative;
+  height: 51%;
+}
+
+.playerContainer .playerInfo {
+  padding: 0 25px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.playerContainer .playerInfo p {
+  font-size: 3rem;
+  padding: 10px;
+  margin: 0px;
+}
+
+.playerContainer .playerInfo p.score {
+  background-color: #346d34;
+  margin-left: 30px;
+  border: 1px solid white;
+  border-radius: 30px;
+}
+
+.playerContainer .playerInfo p.bankroll {
+  position: absolute;
+  right: 25px;
+}
+
+.playerContainer .cardsContainer {
+  -webkit-transform: translate(25%, 12.5%);
+          transform: translate(25%, 12.5%);
+}
+
+.playerContainer .cardsContainer .card {
+  height: 250px;
+  padding: 3px;
+}
+
+.playerContainer .controlContainer {
+  position: absolute;
+  padding: 30px;
+  bottom: 0px;
+}
+
+.playerContainer .controlContainer .bet input {
+  width: 60px;
+}
+
+.playerContainer .controlContainer .action {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+/*# sourceMappingURL=Player.css.map */

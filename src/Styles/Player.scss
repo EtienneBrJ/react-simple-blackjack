@@ -1,0 +1,45 @@
+.playerContainer {
+    position: relative;
+    height: 51%;
+    .playerInfo {
+        padding: 0 25px;
+        display: flex;
+        p {
+            font-size: 3rem;
+            padding: 10px;
+            margin: 0px;
+        }
+        p.score {
+            background-color: rgb(52, 109, 52);
+            margin-left: 30px;
+            border: 1px solid white;
+            border-radius: 30px;
+        }
+        p.bankroll {
+            position: absolute;
+            right: 25px;
+        }
+    }
+    .cardsContainer {
+        transform: translate(25%, 12.5%);
+        .card{
+            height: 250px;
+            padding: 3px;
+        }
+    }
+    .controlContainer {
+        position: absolute;
+        padding: 30px;
+        bottom: 0px;
+        .bet {
+            input {
+                width: 60px;
+            }
+        }
+        .action {
+            display: flex;
+            justify-content: center;
+
+        }
+    }
+}
