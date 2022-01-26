@@ -17,20 +17,22 @@ const App: React.FC = () => {
     reset,
   }
 
+  // Check useReducer? trop de state 
   const [currentState, setCurrentState] = useState(CurrentState.bet)
   const [deck, setDeck] = useState<string[]>([]);
 
   const [bankCards, setBankCards] = useState<string[]>([]);
-  const [bankScore, setBankScore] = useState<number>(0);
-  const [message, setMessage] = useState('Welcome! Take a seat')
+  const [bankScore, setBankScore] = useState(0);
+  const [message, setMessage] = useState('Welcome! Place a bet')
 
-  const [chips, setChips] = useState<number>(100);
+  const [chips, setChips] = useState(100);
   const [playerCards, setPlayerCards] = useState<string[]>([]);
   const [playerScore, setPlayerScore] = useState(0);
-  const [bet, setBet] = useState<number>(0);
+  const [bet, setBet] = useState(0);
 
   useEffect(() => {
     if (playerScore > 21 && currentState > 1 && currentState < 4) {
+      // When player bust from the previous hand and start a new round --> currentState problem that affect the display and the game
       setCurrentState(CurrentState.checkWinner)
     }
     if (currentState > CurrentState.dealing) {
@@ -57,8 +59,8 @@ const App: React.FC = () => {
         setMessage('Chop-chop')
         setCurrentState(CurrentState.reset)
       } else if (playerScore <= 21 && (bankScore > 21 || playerScore > bankScore)) {
-        setChips(chips + bet * 2)
         setMessage('You win and double your bet')
+        setChips(chips + bet * 2)
         setCurrentState(CurrentState.reset)
       }
     }
@@ -93,22 +95,17 @@ const App: React.FC = () => {
     }
 
   };
-  const stay = () => {
+  const stand = () => {
     if (currentState === CurrentState.playerTurn) {
       setCurrentState(CurrentState.bankTurn)
     }
-  };
-
-  // To do 
-  const double = () => {
-
   };
 
   return (
     <div className="App">
       <Bank cards={bankCards} score={bankScore} state={currentState} message={message} />
       <Player chips={chips} bet={bet} cards={playerCards} setBet={setBet} state={currentState}
-        startDeal={() => startDeal()} score={playerScore} hit={() => hit()} stay={() => stay()} double={() => double()} />
+        startDeal={() => startDeal()} score={playerScore} hit={() => hit()} stand={() => stand()} />
     </div>
   );
 };

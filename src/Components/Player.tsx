@@ -7,19 +7,17 @@ interface IPlayer {
     score: number;
     bet: number;
     startDeal: any;
-    stay: any;
+    stand: any;
     hit: any;
     setBet: any;
     state: number;
-    double: any;
 }
 
-const Player: React.FC<IPlayer> = ({ chips, cards, score, bet, startDeal, stay, hit, setBet, state, double }) => {
+const Player: React.FC<IPlayer> = ({ chips, cards, score, bet, startDeal, stand, hit, setBet, state }) => {
     return (
         <div className="playerContainer">
             <div className="playerInfo">
-                <p>Player</p>
-                <p className="score">{calculateScore(cards)}</p>
+                <p className="score">Player's score: {calculateScore(cards)}</p>
                 <p className="bankroll">${chips}</p>
             </div>
             <div className="cardsContainer">
@@ -31,14 +29,13 @@ const Player: React.FC<IPlayer> = ({ chips, cards, score, bet, startDeal, stay, 
             </div>
             <div className="controlContainer">
                 <div className="bet">
-                    <input type="text" placeholder="Your bet" onChange={e => setBet(parseInt(e.target.value))} />
+                    <input type="text" placeholder="  Your bet" onChange={e => setBet(parseInt(e.target.value))} />
                     <button onClick={() => startDeal()}>Start Deal</button>
                 </div>
                 <div className="action">
 
                     <button onClick={() => hit()}>Hit</button>
-                    <button onClick={() => stay()}>Stay</button>
-                    <button onClick={() => double()}>Double</button>
+                    <button onClick={() => stand()}>Stand</button>
                 </div>
 
             </div>
