@@ -32,7 +32,6 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (playerScore > 21 && currentState > 1 && currentState < 4) {
-      // When player bust from the previous hand and start a new round --> currentState problem that affect the display and the game
       setCurrentState(CurrentState.checkWinner)
     }
     if (currentState > CurrentState.dealing) {
@@ -67,9 +66,15 @@ const App: React.FC = () => {
   }, [deck, bet, chips, bankCards, bankScore, playerCards, playerScore, currentState,
     CurrentState.reset, CurrentState.dealing, CurrentState.checkWinner, CurrentState.bankTurn,])
 
-  const startDeal = () => {
+
+  const initializeNewRound = () => {
+    setBankScore(0)
+    setPlayerScore(0)
     setCurrentState(CurrentState.dealing)
     setMessage('Hit or stay?')
+  }
+  const startDeal = () => {
+    initializeNewRound()
     let _deck = _.shuffle(generateDeck())
     const tmpPlayerCards: string[] = []
     const tmpBankCards: string[] = []
@@ -103,6 +108,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
+      {currentState}
       <Bank cards={bankCards} score={bankScore} state={currentState} message={message} />
       <Player chips={chips} bet={bet} cards={playerCards} setBet={setBet} state={currentState}
         startDeal={() => startDeal()} score={playerScore} hit={() => hit()} stand={() => stand()} />
