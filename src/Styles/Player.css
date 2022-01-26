@@ -14,16 +14,23 @@
   font-size: 3rem;
   padding: 10px;
   margin: 0px;
+  margin-top: 2%;
 }
 
 .playerContainer .playerInfo p.score {
-  background-color: #346d34;
-  margin-left: 30px;
-  border: 1px solid white;
+  padding: 15px 20px;
+  background-color: #204d4e;
   border-radius: 30px;
 }
 
+@media screen and (max-height: 800px) {
+  .playerContainer .playerInfo p.score {
+    padding: 10px 15px;
+  }
+}
+
 .playerContainer .playerInfo p.bankroll {
+  color: #eee5e5;
   position: absolute;
   right: 25px;
 }
@@ -38,22 +45,61 @@
   padding: 3px;
 }
 
+@media screen and (max-height: 800px) {
+  .playerContainer .cardsContainer .card {
+    height: 210px;
+  }
+}
+
 .playerContainer .controlContainer {
   position: absolute;
-  padding: 30px;
+  width: 25%;
+  padding: 2% 1%;
   bottom: 0px;
 }
 
-.playerContainer .controlContainer .bet input {
-  width: 60px;
+.playerContainer .controlContainer button {
+  background-color: #204d4e;
+  color: #eee5e5;
+  font-size: 15px;
+  border: none;
+  border-radius: 15px;
+  height: 3em;
+  width: 6em;
 }
 
-.playerContainer .controlContainer .action {
+.playerContainer .controlContainer .bet {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  padding: 5em 0px;
+}
+
+.playerContainer .controlContainer .bet input {
+  font-size: 20px;
+  width: 5em;
+  border: none;
+  border-radius: 15px 0 0 15px;
+  background-color: rgba(0, 0, 0, 0.164);
+  color: white;
+}
+
+.playerContainer .controlContainer .bet button {
+  border-radius: 0 15px 15px 0;
+}
+
+.playerContainer .controlContainer .action {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 /*# sourceMappingURL=Player.css.map */

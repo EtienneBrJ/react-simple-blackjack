@@ -10,18 +10,19 @@
   display: flex;
 }
 
-.bankContainer .bankInfo p {
+.bankContainer .bankInfo p.score {
+  padding: 15px 20px;
   font-size: 3rem;
-  padding: 10px;
   margin: 0px;
-  margin-top: 1%;
+  margin-top: 2%;
+  background-color: #204d4e;
+  border-radius: 30px;
 }
 
-.bankContainer .bankInfo p.score {
-  background-color: #346d34;
-  margin-left: 30px;
-  border: 1px solid white;
-  border-radius: 30px;
+@media screen and (max-height: 800px) {
+  .bankContainer .bankInfo p.score {
+    padding: 10px 15px;
+  }
 }
 
 .bankContainer .cardsContainer {
@@ -34,13 +35,21 @@
   padding: 3px;
 }
 
+@media screen and (max-height: 800px) {
+  .bankContainer .cardsContainer .card {
+    height: 210px;
+  }
+}
+
 .bankContainer .message {
   font-size: 2em;
-  margin-bottom: -1.8em;
   position: absolute;
-  bottom: 0;
-  left: 49%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  top: 2%;
+  padding: 15px 20px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  background-color: #666666;
+  border-radius: 15px;
 }
 /*# sourceMappingURL=Bank.css.map */

@@ -9,13 +9,13 @@ body {
   margin: 0px;
   min-height: 100%;
   width: 100%;
-  color: #cad3c6;
+  color: white;
 }
 
 .App {
   position: absolute;
   height: 100%;
   width: 100%;
-  background-color: rgba(23, 124, 23, 0.74);
+  background-color: rgba(0, 0, 0, 0.863);
 }
 /*# sourceMappingURL=App.css.map */

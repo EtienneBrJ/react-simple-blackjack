@@ -1,3 +1,9 @@
+@mixin media-min($_max-height) {
+    @media screen and (max-height: $_max-height) {
+        &{ @content; }
+    }
+}
+
 .playerContainer {
     position: relative;
     height: 51%;
@@ -8,14 +14,18 @@
             font-size: 3rem;
             padding: 10px;
             margin: 0px;
+            margin-top: 2%;
         }
         p.score {
-            background-color: rgb(52, 109, 52);
-            margin-left: 30px;
-            border: 1px solid white;
+            padding: 15px 20px;
+            background-color: rgb(32, 77, 78);
             border-radius: 30px;
+            @include media-min(800px) {
+                padding: 10px 15px;
+            }
         }
         p.bankroll {
+            color: rgb(238, 229, 229);
             position: absolute;
             right: 25px;
         }
@@ -25,21 +35,47 @@
         .card{
             height: 250px;
             padding: 3px;
+            @include media-min(800px) {
+                height: 210px;
+            }
         }
     }
     .controlContainer {
         position: absolute;
-        padding: 30px;
+        width: 25%;
+        padding: 2% 1%;
         bottom: 0px;
+        button {
+            background-color: rgb(32, 77, 78);
+            color: rgb(238, 229, 229);
+            font-size: 15px;
+            border: none;
+            border-radius: 15px;
+            height: 3em;
+            width: 6em;
+        }
         .bet {
+            display: flex;
+            justify-content: center;
+            padding: 5em 0px;
             input {
-                width: 60px;
+                font-size: 20px;
+                width: 5em;
+                border: none;
+                border-radius: 15px 0 0 15px;
+                background-color: rgba(0, 0, 0, 0.164);
+                color: white;
+            }
+            button {
+                border-radius: 0 15px 15px 0;
             }
         }
         .action {
             display: flex;
-            justify-content: center;
-
+            justify-content: space-evenly;
+            align-items: center;
         }
     }
 }
+
+
