@@ -109,7 +109,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <Bank cards={bankCards} score={bankScore} state={currentState} message={message} />
-      <Player chips={chips} bet={bet} cards={playerCards} setBet={setBet} state={currentState}
+      <Player chips={chips} cards={playerCards} setBet={setBet} state={currentState}
         startDeal={() => startDeal()} score={playerScore} hit={() => hit()} stand={() => stand()} />
     </div>
   );
