@@ -5,23 +5,21 @@
 
 .bankContainer .bankInfo {
   padding: 0 25px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: inline-block;
 }
 
 .bankContainer .bankInfo p.score {
-  padding: 15px 20px;
-  font-size: 3rem;
+  padding: 5px 20px;
+  font-size: 2.5rem;
   margin: 0px;
   margin-top: 2%;
-  background-color: #204d4e;
-  border-radius: 30px;
+  background-color: rgba(95, 19, 13, 0.938);
+  border-radius: 10px;
 }
 
 @media screen and (max-height: 800px) {
   .bankContainer .bankInfo p.score {
-    padding: 10px 15px;
+    padding: 3px 10px;
   }
 }
 
@@ -45,11 +43,11 @@
   font-size: 2em;
   position: absolute;
   top: 2%;
-  padding: 15px 20px;
+  padding: 10px 20px;
   left: 50%;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
-  background-color: #666666;
-  border-radius: 15px;
+  background-color: rgba(0, 0, 0, 0.151);
+  border-radius: 5px;
 }
 /*# sourceMappingURL=Bank.css.map */
