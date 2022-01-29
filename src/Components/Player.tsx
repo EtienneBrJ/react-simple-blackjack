@@ -1,4 +1,7 @@
 import '../Styles/Player.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCoins } from '@fortawesome/free-solid-svg-icons'
+
 
 interface IPlayer {
     chips: number;
@@ -16,7 +19,9 @@ const Player: React.FC<IPlayer> = ({ chips, cards, score, startDeal, stand, hit,
         <div className="playerContainer">
             <div className="playerInfo">
                 <p className="score">Player's score: {score}</p>
-                <p className="bankroll">${chips}</p>
+                <p className="bankroll">
+                    {chips} <FontAwesomeIcon icon={faCoins} />
+                </p>
             </div>
             <div className="cardsContainer">
                 {cards.map((card) => (
