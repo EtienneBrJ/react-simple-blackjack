@@ -1,14 +1,14 @@
 import { getScore } from "../utils";
 import '../Styles/Bank.css'
 
-interface IBank {
+interface BankInterface {
     cards: any[];
     score: number;
     message: string;
     state: number;
 }
 
-const Bank: React.FC<IBank> = ({ cards, score, message, state }) => {
+const Bank: React.FC<BankInterface> = ({ cards, score, message, state }) => {
 
     const hiddenCard = 'hiddenCard'
 

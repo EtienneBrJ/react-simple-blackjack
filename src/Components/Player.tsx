@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoins } from '@fortawesome/free-solid-svg-icons'
 
 
-interface IPlayer {
+interface PlayerInterface {
     chips: number;
     cards: any[];
     score: number;
@@ -14,7 +14,7 @@ interface IPlayer {
     state: number;
 }
 
-const Player: React.FC<IPlayer> = ({ chips, cards, score, startDeal, stand, hit, setBet, state }) => {
+const Player: React.FC<PlayerInterface> = ({ chips, cards, score, startDeal, stand, hit, setBet, state }) => {
     return (
         <div className="playerContainer">
             <div className="playerInfo">
