@@ -1,9 +1,14 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+/src/Components/Firebase.tsx
 # dependencies
 /node_modules
 /.pnp
 .pnp.js
+
+firebase.json
+.firebaserc
+/.firebase
 
 # testing
 /coverage
