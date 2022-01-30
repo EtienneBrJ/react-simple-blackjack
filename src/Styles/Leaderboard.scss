@@ -1,0 +1,43 @@
+.leaderboardBtn {
+    position: absolute;
+    background-color: transparent;
+    right: 1%;
+    top: 1%;
+    font-size: 2em;
+    color: rgba(0, 0, 0, 0.4);
+    border: 5px solid rgba(0, 0, 0, 0.15);
+    padding: 10px 10px 8px 10px;
+    border-radius: 45px;
+    z-index: 1;
+    .cross {
+        margin: 0px 7px;
+        color: rgb(250, 244, 244);
+    }
+}
+
+.leaderboardContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 100vh;
+    width: 100%;
+    .leaderboardDisplay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: 1px solid black;
+        height: 600px;
+        width: 400px;
+    }
+    p {
+        font-size: 2em;
+        color: rgb(6, 8, 19);
+        text-align: center;
+        border-bottom: 1px solid black;
+        padding-bottom: 32px;
+        margin-bottom: 0px;
+    }
+}

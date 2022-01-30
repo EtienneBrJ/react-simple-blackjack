@@ -50,4 +50,10 @@
   background-color: rgba(0, 0, 0, 0.151);
   border-radius: 5px;
 }
+
+@media screen and (max-width: 1300px) {
+  .bankContainer .message {
+    top: 85%;
+  }
+}
 /*# sourceMappingURL=Bank.css.map */
