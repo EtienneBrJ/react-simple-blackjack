@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { generateDeck, calculateScore } from './utils'
-import _ from 'lodash'
+import BoardButton from './Components/Leaderboard'
 import Player from './Components/Player'
 import Bank from './Components/Bank'
 import './Styles/App.css'
+import _ from 'lodash'
 
 
 const App: React.FC = () => {
@@ -14,7 +15,7 @@ const App: React.FC = () => {
     playerTurn,
     bankTurn,
     checkWinner,
-    reset,
+    endRound,
   }
 
   // Check useReducer? trop de state 
@@ -52,19 +53,19 @@ const App: React.FC = () => {
     if (currentState === CurrentState.checkWinner) {
       if ((playerScore > 21) || (bankScore > playerScore && bankScore <= 21)) {
         setMessage('You loose the round')
-        setCurrentState(CurrentState.reset)
+        setCurrentState(CurrentState.endRound)
       } else if (bankScore === playerScore) {
         setChips(chips + bet)
         setMessage('Chop-chop')
-        setCurrentState(CurrentState.reset)
+        setCurrentState(CurrentState.endRound)
       } else if (playerScore <= 21 && (bankScore > 21 || playerScore > bankScore)) {
         setMessage('You win and double your bet')
         setChips(chips + bet * 2)
-        setCurrentState(CurrentState.reset)
+        setCurrentState(CurrentState.endRound)
       }
     }
   }, [deck, bet, chips, bankCards, bankScore, playerCards, playerScore, currentState,
-    CurrentState.reset, CurrentState.dealing, CurrentState.checkWinner, CurrentState.bankTurn,])
+    CurrentState.endRound, CurrentState.dealing, CurrentState.checkWinner, CurrentState.bankTurn,])
 
 
   const initializeNewRound = () => {
@@ -111,6 +112,7 @@ const App: React.FC = () => {
       <Bank cards={bankCards} score={bankScore} state={currentState} message={message} />
       <Player chips={chips} cards={playerCards} setBet={setBet} state={currentState}
         startDeal={() => startDeal()} score={playerScore} hit={() => hit()} stand={() => stand()} />
+      <BoardButton />
     </div>
   );
 };
