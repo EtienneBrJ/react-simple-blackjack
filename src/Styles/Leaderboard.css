@@ -32,7 +32,7 @@
   border-radius: 5px;
   text-align: center;
   position: absolute;
-  top: 50%;
+  top: 51%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
@@ -46,7 +46,7 @@
 }
 
 .leaderboardContent .leaderboardDisplay .leaderboard {
-  height: 445px;
+  height: 410px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
