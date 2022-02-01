@@ -73,7 +73,7 @@ const App: React.FC = () => {
     setBankScore(0)
     setPlayerScore(0)
     setCurrentState(CurrentState.dealing)
-    setMessage('Hit or stay?')
+    setMessage('Hit or stand?')
   }
   const startDeal = () => {
     initializeNewRound()
