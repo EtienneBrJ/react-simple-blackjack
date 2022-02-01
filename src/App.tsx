@@ -28,6 +28,7 @@ const App: React.FC = () => {
 
   const [chips, setChips] = useState(100);
   const [playerCards, setPlayerCards] = useState<string[]>([]);
+  const [user, setUser] = useState('Player');
   const [playerScore, setPlayerScore] = useState(0);
   const [bet, setBet] = useState(0);
 
@@ -110,9 +111,9 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <Bank cards={bankCards} score={bankScore} state={currentState} message={message} />
-      <Player chips={chips} cards={playerCards} setBet={setBet} state={currentState}
+      <Player chips={chips} cards={playerCards} setBet={setBet} state={currentState} name={user}
         startDeal={() => startDeal()} score={playerScore} hit={() => hit()} stand={() => stand()} />
-      <BoardButton />
+      <BoardButton user={user} setUser={setUser} score={chips} />
     </div>
   );
 };

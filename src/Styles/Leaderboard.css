@@ -23,27 +23,44 @@
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   background-color: rgba(0, 0, 0, 0.3);
-  height: 100vh;
+  height: 100%;
   width: 100%;
 }
 
 .leaderboardContent .leaderboardDisplay {
+  background-color: rgba(0, 0, 0, 0.35);
+  border-radius: 5px;
+  text-align: center;
   position: absolute;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-  border: 1px solid black;
   height: 600px;
   width: 400px;
+  color: #060813;
 }
 
-.leaderboardContent p {
+.leaderboardContent .leaderboardDisplay h1 {
   font-size: 2em;
-  color: #060813;
-  text-align: center;
+}
+
+.leaderboardContent .leaderboardDisplay .leaderboard {
+  height: 445px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.leaderboardContent .leaderboardDisplay .leaderboard .title {
+  font-size: 1.1em;
   border-bottom: 1px solid black;
-  padding-bottom: 32px;
-  margin-bottom: 0px;
+}
+
+.leaderboardContent .leaderboardDisplay .leaderboardRegister {
+  position: relative;
+  bottom: 0%;
 }
 /*# sourceMappingURL=Leaderboard.css.map */

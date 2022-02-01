@@ -12,15 +12,16 @@ interface PlayerInterface {
     hit: any;
     setBet: any;
     state: number;
+    name: string;
 }
 
-const Player: React.FC<PlayerInterface> = ({ chips, cards, score, startDeal, stand, hit, setBet, state }) => {
+const Player: React.FC<PlayerInterface> = ({ chips, cards, score, startDeal, stand, hit, setBet, state, name }) => {
     return (
         <div className="playerContainer">
             <div className="playerInfo">
-                <p className="score">Player's score: {score}</p>
+                <p className="score">{name}'s score: {score}</p>
                 <p className="bankroll">
-                    {chips} <FontAwesomeIcon icon={faCoins} />
+                    <FontAwesomeIcon icon={faCoins} /> {chips}
                 </p>
             </div>
             <div className="cardsContainer">
