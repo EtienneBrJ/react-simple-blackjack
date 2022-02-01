@@ -111,8 +111,8 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <Bank cards={bankCards} score={bankScore} state={currentState} message={message} />
-      <Player chips={chips} cards={playerCards} setBet={setBet} state={currentState} name={user}
-        startDeal={() => startDeal()} score={playerScore} hit={() => hit()} stand={() => stand()} />
+      <Player chips={chips} cards={playerCards} bet={bet} setBet={setBet} state={currentState} name={user}
+        startDeal={startDeal} score={playerScore} hit={hit} stand={stand} />
       <BoardButton user={user} setUser={setUser} score={chips} />
     </div>
   );

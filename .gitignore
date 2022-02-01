@@ -6,7 +6,6 @@
 
 # firebase
 firebase.json
-src/firebase-config.tsx
 .firebase*
 
 # env

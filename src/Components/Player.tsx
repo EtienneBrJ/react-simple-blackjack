@@ -13,9 +13,10 @@ interface PlayerInterface {
     setBet: any;
     state: number;
     name: string;
+    bet: number;
 }
 
-const Player: React.FC<PlayerInterface> = ({ chips, cards, score, startDeal, stand, hit, setBet, state, name }) => {
+const Player: React.FC<PlayerInterface> = ({ chips, cards, score, startDeal, stand, hit, setBet, state, name, bet }) => {
     return (
         <div className="playerContainer">
             <div className="playerInfo">
@@ -34,14 +35,14 @@ const Player: React.FC<PlayerInterface> = ({ chips, cards, score, startDeal, sta
             <div className="controlContainer">
                 {state === 0 || state === 5 ?
                     <div className="bet">
-                        <input type="text" placeholder="  Your bet" onChange={e => setBet(parseInt(e.target.value))} />
-                        <button onClick={() => startDeal()}>Start Deal</button>
+                        <input type="text" placeholder="  Your bet" onChange={e => setBet(parseInt(e.target.value))} value={bet || undefined} />
+                        <button onClick={startDeal}>Start Deal</button>
                     </div>
                     : null}
                 {state === 2 ?
                     <div className="action">
-                        <button onClick={() => hit()}>Hit</button>
-                        <button onClick={() => stand()}>Stand</button>
+                        <button onClick={hit}>Hit</button>
+                        <button onClick={stand}>Stand</button>
                     </div>
                     : null}
 
