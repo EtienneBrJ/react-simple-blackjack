@@ -28,6 +28,17 @@ const BoardButton: React.FC<Board> = ({ user, setUser, score }) => {
 
     useEffect(() => {
 
+        if (isClicked) {
+            console.log('Entrée useEffect isClicked est true -')
+            const getLeaderboard = async () => {
+                const data = await getDocs(blackjackCollection);
+                setLeaderboard(data.docs.map((doc) => ({ user: doc.data().user, score: doc.data().score })))
+                console.log(leaderboard)
+            }
+        }
+
+        /* tester le score avant de faire la requete avec le leaderboard qu'on a deja, c la condition d'update
+        
         const updateScore = async () => {
             const docRef = doc(blackjackCollection, user + '\'s score')
             const data = await getDoc(docRef)
@@ -42,17 +53,9 @@ const BoardButton: React.FC<Board> = ({ user, setUser, score }) => {
                 }
             }
         }
-        updateScore();
+        updateScore();*/
 
-        if (isClicked) {
-            console.log('Entrée useEffect isClicked est true -')
-            const getLeaderboard = async () => {
-                const data = await getDocs(blackjackCollection);
-                setLeaderboard(data.docs.map((doc) => ({ user: doc.data().user, score: doc.data().score })))
-                console.log(leaderboard)
-            }
-        }
-    })
+    }, [isClicked, leaderboard])
 
     return <div className='leaderboardContainer'>
         <button className='leaderboardBtn' onClick={toggleBoard} >
