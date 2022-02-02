@@ -1,8 +1,8 @@
 import '../Styles/Leaderboard.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrophy, faTimes } from '@fortawesome/free-solid-svg-icons'
-import { useEffect, useState } from 'react'
-import { doc, setDoc, collection, getDocs, getDoc } from "firebase/firestore";
+import { useEffect, useState, useRef } from 'react'
+import { doc, setDoc, collection, getDocs } from "firebase/firestore";
 import { db } from '../firebase-config'
 
 
@@ -20,42 +20,33 @@ const BoardButton: React.FC<Board> = ({ user, setUser, score }) => {
 
 
     const [isClicked, setIsClicked] = useState(false)
-    const [leaderboard, setLeaderboard] = useState<{ user: string; score: number; }[]>([{ user: "False Data", score: 100 }, { user: "2 much req", score: 212 }, { user: "on the db", score: 121 }])
+    const [leaderboard, setLeaderboard] = useState<{ user: string; score: number; }[]>([])
 
     const toggleBoard = () => {
         setIsClicked(!isClicked)
     }
 
     useEffect(() => {
+        console.log('Entrée useEffect')
+        leaderboard?.forEach((element) => {
+            if (element.user === user && element.score < score) {
+                setDoc(doc(db, "blackjack", user + '\'s score'), {
+                    user,
+                    score,
+                });
+            }
+        })
 
         if (isClicked) {
-            console.log('Entrée useEffect isClicked est true -')
             const getLeaderboard = async () => {
                 const data = await getDocs(blackjackCollection);
+                console.log(data.docs)
                 setLeaderboard(data.docs.map((doc) => ({ user: doc.data().user, score: doc.data().score })))
-                console.log(leaderboard)
             }
+            getLeaderboard()
         }
 
-        /* tester le score avant de faire la requete avec le leaderboard qu'on a deja, c la condition d'update
-        
-        const updateScore = async () => {
-            const docRef = doc(blackjackCollection, user + '\'s score')
-            const data = await getDoc(docRef)
-            if (data.exists()) {
-                if (data.data().score < score) {
-                    // Ecrase l'ancien document pour update le score
-                    setDoc(doc(db, "blackjack", user + '\'s score'), {
-                        user: user,
-                        score: score,
-                        // date: 
-                    });
-                }
-            }
-        }
-        updateScore();*/
-
-    }, [isClicked, leaderboard])
+    }, [isClicked, score, user])
 
     return <div className='leaderboardContainer'>
         <button className='leaderboardBtn' onClick={toggleBoard} >
@@ -70,13 +61,15 @@ const BoardButton: React.FC<Board> = ({ user, setUser, score }) => {
 
 const Leaderboard: React.FC<Board> = ({ user, setUser, score, leaderboard }) => {
 
-    const addUserDocument = async () => {
-        if (user !== 'Player') {
-            await setDoc(doc(db, "blackjack", user + '\'s score'), {
-                user: user,
-                score: score,
-            });
-        }
+
+    const inputValue = useRef<HTMLInputElement>(null)
+
+    const addUserDocument = () => {
+        setDoc(doc(db, "blackjack", inputValue.current?.value + '\'s score'), {
+            user: inputValue.current?.value,
+            score: score,
+        });
+        setUser(inputValue.current?.value)
     }
 
     return <div className='leaderboardContent'>
@@ -105,7 +98,7 @@ const Leaderboard: React.FC<Board> = ({ user, setUser, score, leaderboard }) => 
             </div>
             <div className='leaderboardRegister'>
                 <p>Add your name on the board:</p>
-                <input type="text" onChange={e => setUser(e.target.value)} />
+                <input ref={inputValue} type="text" />
                 <button onClick={addUserDocument}>Register</button>
             </div>
         </div>
