@@ -12,7 +12,7 @@ interface PlayerInterface {
     hit: any;
     setBet: any;
     state: number;
-    name: string;
+    name: string | undefined;
     bet: number;
 }
 
