@@ -18,12 +18,8 @@ const BoardButton: React.FC<Board> = ({ user, setUser, score }) => {
 
     const [isClicked, setIsClicked] = useState(false)
 
-    const toggleBoard = () => {
-        setIsClicked(!isClicked)
-    }
-
     return <div className='leaderboardContainer'>
-        <button className='leaderboardBtn' onClick={toggleBoard} >
+        <button className='leaderboardBtn' onClick={() => setIsClicked(!isClicked)} >
             {isClicked ? <FontAwesomeIcon className='cross' icon={faTimes} /> : <FontAwesomeIcon className='trophy' icon={faTrophy} />}
         </button>
         {isClicked ? <Leaderboard user={user} setUser={setUser} score={score} /> : null}
@@ -36,14 +32,14 @@ const Leaderboard: React.FC<Board> = ({ user, setUser, score }) => {
     const inputValue = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
-        const checkUser = async () => {
+        const checkAndUpdateUser = async () => {
             const docRef = doc(db, 'blackjack', user + '\'s score')
             const docData = await getDoc(docRef)
             if ((docData.data()?.user !== user) || (docData.data()?.user === user && docData.data()?.score < score)) {
                 setDoc(docRef, { user, score })
             }
         }
-        checkUser()
+        checkAndUpdateUser()
     }, [score, user])
 
     useEffect(() => {
