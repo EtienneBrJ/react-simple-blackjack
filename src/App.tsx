@@ -36,7 +36,6 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (calculateScore(playerCards) > 21 && currentState > 1 && currentState < 4) {
-
       setCurrentState(CurrentState.checkWinner)
     }
     if (currentState === CurrentState.bankTurn) {
@@ -52,13 +51,14 @@ const App: React.FC = () => {
     if (currentState === CurrentState.checkWinner) {
       setCurrentState(CurrentState.endRound)
       if ((playerScore > 21) || (bankScore > playerScore && bankScore <= 21)) {
+        setChips(chips - bet)
         setMessage('You loose the round')
       } else if (bankScore === playerScore) {
         setChips(chips + bet)
         setMessage('Chop-chop')
       } else if (playerScore <= 21 && (bankScore > 21 || playerScore > bankScore)) {
-        setMessage('You win and double your bet')
         setChips(chips + bet * 2)
+        setMessage('You win and double your bet')
       }
     }
   }, [deck, bet, chips, bankCards, bankScore, playerCards, playerScore, currentState,
@@ -78,17 +78,12 @@ const App: React.FC = () => {
     }
   }, [bankCards, playerCards, currentState])
 
-
-  const initializeNewRound = () => {
+  const startDeal = () => {
     setCurrentState(CurrentState.dealing)
     setMessage('Hit or stand?')
-  }
-  const startDeal = () => {
-    initializeNewRound()
     setPlayerCards([deck[deck.length - 1], deck[deck.length - 3]])
     setBankCards([deck[deck.length - 2], deck[deck.length - 4]])
     deck.splice(deck.length - 4, 4)
-    setChips(chips - bet)
     setCurrentState(CurrentState.playerTurn)
   };
   const hit = () => {
@@ -106,7 +101,6 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      {currentState}
       <Bank cards={bankCards} score={bankScore} state={currentState} message={message} />
       <Player chips={chips} cards={playerCards} bet={bet} setBet={setBet} state={currentState} name={user ? user : 'Player'}
         startDeal={startDeal} score={playerScore} hit={hit} stand={stand} />
