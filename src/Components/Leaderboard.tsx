@@ -2,75 +2,57 @@ import '../Styles/Leaderboard.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrophy, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState, useRef } from 'react'
-import { doc, setDoc, collection, getDocs } from "firebase/firestore";
+import { doc, setDoc, collection, getDoc, getDocs } from "firebase/firestore";
 import { db } from '../firebase-config'
 
 
 const blackjackCollection = collection(db, "blackjack");
 
 interface Board {
-    user: string;
+    user: string | undefined;
     score: number;
     setUser: any;
-    leaderboard?: { user: string; score: number; }[];
-    setLeaderboard?: any;
 }
 
 const BoardButton: React.FC<Board> = ({ user, setUser, score }) => {
 
-
     const [isClicked, setIsClicked] = useState(false)
-    const [leaderboard, setLeaderboard] = useState<{ user: string; score: number; }[]>([])
 
     const toggleBoard = () => {
         setIsClicked(!isClicked)
     }
 
-    useEffect(() => {
-        console.log('Entrée useEffect')
-        leaderboard?.forEach((element) => {
-            if (element.user === user && element.score < score) {
-                setDoc(doc(db, "blackjack", user + '\'s score'), {
-                    user,
-                    score,
-                });
-            }
-        })
-
-        if (isClicked) {
-            const getLeaderboard = async () => {
-                const data = await getDocs(blackjackCollection);
-                console.log(data.docs)
-                setLeaderboard(data.docs.map((doc) => ({ user: doc.data().user, score: doc.data().score })))
-            }
-            getLeaderboard()
-        }
-
-    }, [isClicked, score, user])
-
     return <div className='leaderboardContainer'>
         <button className='leaderboardBtn' onClick={toggleBoard} >
             {isClicked ? <FontAwesomeIcon className='cross' icon={faTimes} /> : <FontAwesomeIcon className='trophy' icon={faTrophy} />}
         </button>
-        {isClicked ? <Leaderboard user={user} setUser={setUser} score={score}
-            setLeaderboard={setLeaderboard} leaderboard={leaderboard} /> : null}
+        {isClicked ? <Leaderboard user={user} setUser={setUser} score={score} /> : null}
     </div>
-
 }
 
+const Leaderboard: React.FC<Board> = ({ user, setUser, score }) => {
 
-const Leaderboard: React.FC<Board> = ({ user, setUser, score, leaderboard }) => {
-
-
+    const [leaderboard, setLeaderboard] = useState<{ user: string; score: number; }[]>([])
     const inputValue = useRef<HTMLInputElement>(null)
 
-    const addUserDocument = () => {
-        setDoc(doc(db, "blackjack", inputValue.current?.value + '\'s score'), {
-            user: inputValue.current?.value,
-            score: score,
-        });
-        setUser(inputValue.current?.value)
-    }
+    useEffect(() => {
+        const checkUser = async () => {
+            const docRef = doc(db, 'blackjack', user + '\'s score')
+            const docData = await getDoc(docRef)
+            if ((docData.data()?.user !== user) || (docData.data()?.user === user && docData.data()?.score < score)) {
+                setDoc(docRef, { user, score })
+            }
+        }
+        checkUser()
+    }, [score, user])
+
+    useEffect(() => {
+        const getLeaderboard = async () => {
+            const data = await getDocs(blackjackCollection);
+            setLeaderboard(data.docs.map((doc) => ({ user: doc.data().user, score: doc.data().score })))
+        }
+        getLeaderboard()
+    }, [score, user])
 
     return <div className='leaderboardContent'>
         <div className='leaderboardDisplay'>
@@ -99,7 +81,7 @@ const Leaderboard: React.FC<Board> = ({ user, setUser, score, leaderboard }) => 
             <div className='leaderboardRegister'>
                 <p>Add your name on the board:</p>
                 <input ref={inputValue} type="text" />
-                <button onClick={addUserDocument}>Register</button>
+                <button onClick={() => setUser(inputValue.current?.value)}>Register</button>
             </div>
         </div>
     </div>

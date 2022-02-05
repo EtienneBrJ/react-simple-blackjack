@@ -12,7 +12,7 @@ interface PlayerInterface {
     hit: any;
     setBet: any;
     state: number;
-    name: string;
+    name: string | undefined;
     bet: number;
 }
 
@@ -35,7 +35,7 @@ const Player: React.FC<PlayerInterface> = ({ chips, cards, score, startDeal, sta
             <div className="controlContainer">
                 {state === 0 || state === 5 ?
                     <div className="bet">
-                        <input type="text" placeholder="  Your bet" onChange={e => setBet(parseInt(e.target.value))} value={bet || undefined} />
+                        <input type="number" placeholder="  Your bet" onChange={e => setBet(parseInt(e.target.value))} value={bet || undefined} />
                         <button onClick={startDeal}>Start Deal</button>
                     </div>
                     : null}
