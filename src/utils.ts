@@ -1,3 +1,5 @@
+// Les fichiers .tsx sont réservés aux components (ceux qui contiennent des JSX.Element). Ce fichiers doit avoir une extension .ts
+
 // Les noms qui commencent par "get" sont résesrvés au getters (function qui retourne une valeur). Du coup CardPoints est peut être plus adapté.
 export const CardPoints: any = {
     '2': 2,
