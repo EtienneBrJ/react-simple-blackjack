@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "ACAA,OAAO,CAAC,oEAAI",
+    "sources": [
+        "Bank.module.scss",
+        "../Styles/variables.scss"
+    ],
+    "names": [],
+    "file": "Bank.module.css"
+}

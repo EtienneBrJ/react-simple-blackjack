@@ -1,30 +1,29 @@
 import { getScore } from "../utils";
-import '../Styles/Bank.css'
+
+import classes from './Bank.module.scss'
 
 interface BankInterface {
-    cards: any[];
+    cards: string[];
     score: number;
-    message: string;
     state: number;
 }
 
-const Bank: React.FC<BankInterface> = ({ cards, score, message, state }) => {
+const Bank: React.FC<BankInterface> = ({ cards, score, state }) => {
 
     const hiddenCard = 'hiddenCard'
 
     return (
-        <div className='bankContainer'>
-            <div className="bankInfo">
+        <div className={classes.bank}>
+            <div className={classes.bank__info}>
                 <p className="score">Dealer's score: {cards[1] && state < 3 ? score - getScore[cards[1][0]] : score}</p>
             </div>
-            <div className="cardsContainer">
+            <div className={classes.bank__cards}>
                 {cards.map((card, index) => (
                     card
                         ? <img className="card" key={card} src={require(`../Cards/${index === 1 && state < 3 ? hiddenCard : card}.svg`)} alt={card} />
                         : null
                 ))}
             </div>
-            <span className="message">{message}</span>
         </div >
     )
 };

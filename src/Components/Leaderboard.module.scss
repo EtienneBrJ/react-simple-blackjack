@@ -1,0 +1,48 @@
+@import "../Styles/variables.scss";
+
+
+.leaderboard {
+    &__btn {
+        position: absolute;
+        border: none;
+        background-color: transparent;
+        top: 2%;
+        right: 1%;
+        font-size: 1.5em;
+        &__cross {
+            margin: 0 7px;
+        }
+    }
+    &__display {
+        position: absolute;
+        height: 584px;
+        width: 400px;
+        background-color: $bg-leaderboard;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        &__title {
+            font-size: 2em;
+            display: flex;
+            justify-content: center;
+            margin: 30px;
+        }
+        &__info {
+            height: 410px;
+            display: flex;
+            justify-content: space-around;
+            font-size: 1.1em;
+            border-bottom: 1px solid black;
+            p {
+                padding: 5px;
+            }
+        }
+        &__register {
+            text-align: center;
+            &__title {
+                padding: 10px;
+            }
+         
+        }
+    }
+}

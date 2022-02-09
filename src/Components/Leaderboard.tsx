@@ -1,9 +1,10 @@
-import '../Styles/Leaderboard.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrophy, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState, useRef } from 'react'
 import { doc, setDoc, collection, getDoc, getDocs } from "firebase/firestore";
 import { db } from '../firebase-config'
+
+import classes from './Leaderboard.module.scss'
 
 
 const blackjackCollection = collection(db, "blackjack");
@@ -18,9 +19,9 @@ const BoardButton: React.FC<Board> = ({ user, setUser, score }) => {
 
     const [isClicked, setIsClicked] = useState(false)
 
-    return <div className='leaderboardContainer'>
-        <button className='leaderboardBtn' onClick={() => setIsClicked(!isClicked)} >
-            {isClicked ? <FontAwesomeIcon className='cross' icon={faTimes} /> : <FontAwesomeIcon className='trophy' icon={faTrophy} />}
+    return <div className={classes.leaderboard}>
+        <button className={classes.leaderboard__btn} onClick={() => setIsClicked(!isClicked)} >
+            {isClicked ? <FontAwesomeIcon className={classes.leaderboard__btn__cross} icon={faTimes} /> : <FontAwesomeIcon className='trophy' icon={faTrophy} />}
         </button>
         {isClicked ? <Leaderboard user={user} setUser={setUser} score={score} /> : null}
     </div>
@@ -50,37 +51,39 @@ const Leaderboard: React.FC<Board> = ({ user, setUser, score }) => {
         getLeaderboard()
     }, [score, user])
 
-    return <div className='leaderboardContent'>
-        <div className='leaderboardDisplay'>
-            <h1>Leaderboard</h1>
-            <div className='leaderboard'>
-                <div className='rankColumn'>
-                    <p className='title'>Rank</p>
+    return (
+        <div className={classes.leaderboard__display}>
+            <h1 className={classes.leaderboard__display__title}>Leaderboard</h1>
+            <div className={classes.leaderboard__display__info}>
+                <div>
+                    <h4>Rank</h4>
                     {leaderboard
                         ? leaderboard.sort((a, b) => b.score - a.score).map((line, idx) => <p key={line.user}>{idx + 1}</p>)
                         : null}
 
                 </div>
-                <div className='userColumn'>
-                    <p className='title'>Name</p>
+                <div>
+                    <h4>Name</h4>
                     {leaderboard
                         ? leaderboard.sort((a, b) => b.score - a.score).map((line) => <p key={line.user}>{line.user}</p>)
                         : null}
                 </div>
-                <div className='scoreColumn'>
-                    <p className='title'>Score</p>
+                <div>
+                    <h4>Score</h4>
                     {leaderboard
                         ? leaderboard.sort((a, b) => b.score - a.score).map((line) => <p key={line.user}>{line.score}</p>)
                         : null}
                 </div>
             </div>
-            <div className='leaderboardRegister'>
-                <p>Add your name on the board:</p>
-                <input ref={inputValue} type="text" />
-                <button onClick={() => setUser(inputValue.current?.value)}>Register</button>
+            <div className={classes.leaderboard__display__register}>
+                <p className={classes.leaderboard__display__register__title}>Add your name on the board:</p>
+                <div className={classes.leaderboard__display__register__form}>
+                    <input ref={inputValue} type="text" />
+                    <button onClick={() => inputValue.current?.value.trim() ? setUser(inputValue.current?.value) : null}>Register</button>
+                </div>
             </div>
         </div>
-    </div>
+    )
 }
 
 export default BoardButton;

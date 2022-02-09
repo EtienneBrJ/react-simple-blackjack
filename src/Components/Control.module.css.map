@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "Control.module.scss",
+        "../Styles/variables.scss"
+    ],
+    "names": [],
+    "file": "Control.module.css"
+}

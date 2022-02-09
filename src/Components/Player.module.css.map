@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "Player.module.scss",
+        "../Styles/variables.scss"
+    ],
+    "names": [],
+    "file": "Player.module.css"
+}

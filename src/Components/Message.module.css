@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+.message {
+  position: fixed;
+  left: 50%;
+  -webkit-transform: translate(-50%, 50%);
+          transform: translate(-50%, 50%);
+}
+
+.message__value {
+  font-size: 2.5em;
+  font-family: "Poppins", cursive;
+}
+/*# sourceMappingURL=Message.module.css.map */

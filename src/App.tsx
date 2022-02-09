@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { generateDeck, calculateScore } from './utils'
+import Message from './Components/Message'
 import BoardButton from './Components/Leaderboard'
-import Player from './Components/Player'
 import Bank from './Components/Bank'
-import './Styles/App.css'
+import Player from './Components/Player'
+import Control from './Components/Control'
 import _ from 'lodash'
 
 
@@ -51,7 +52,6 @@ const App: React.FC = () => {
     if (currentState === CurrentState.checkWinner) {
       setCurrentState(CurrentState.endRound)
       if ((playerScore > 21) || (bankScore > playerScore && bankScore <= 21)) {
-        setChips(chips - bet)
         setMessage('You loose the round')
       } else if (bankScore === playerScore) {
         setChips(chips + bet)
@@ -63,37 +63,42 @@ const App: React.FC = () => {
     }
   }, [deck, bet, chips, bankCards, bankScore, playerCards, playerScore, currentState,
     CurrentState.endRound, CurrentState.dealing, CurrentState.checkWinner, CurrentState.bankTurn,])
-
-  useEffect(() => {
-    setDeck(deck)
-    if (deck.length < 6) {
-      setDeck(newShuffledDeck.concat(deck))
-    }
-  }, [deck, newShuffledDeck])
-
-  useEffect(() => {
-    if (currentState > 0 && currentState < 5) {
-      setPlayerScore(calculateScore(playerCards))
-      setBankScore(calculateScore(bankCards))
-    }
-  }, [bankCards, playerCards, currentState])
-
-  const startDeal = () => {
-    setCurrentState(CurrentState.dealing)
-    setMessage('Hit or stand?')
-    setPlayerCards([deck[deck.length - 1], deck[deck.length - 3]])
-    setBankCards([deck[deck.length - 2], deck[deck.length - 4]])
-    deck.splice(deck.length - 4, 4)
-    setCurrentState(CurrentState.playerTurn)
-  };
-  const hit = () => {
-    if (currentState === CurrentState.playerTurn) {
-      setPlayerCards([...playerCards, deck[deck.length - 1]])
-      deck.splice(deck.length - 1, 1)
-    }
-
-  };
-  const stand = () => {
+    
+    useEffect(() => {
+      setDeck(deck)
+      if (deck.length < 6) {
+        setDeck(newShuffledDeck.concat(deck))
+      }
+    }, [deck, newShuffledDeck])
+    
+    useEffect(() => {
+      if (currentState > 0 && currentState < 5) {
+        setPlayerScore(calculateScore(playerCards))
+        setBankScore(calculateScore(bankCards))
+      }
+    }, [bankCards, playerCards, currentState])
+    
+    const startDeal = () => {
+      if (bet >= 0 && chips > 0 ) {
+        setCurrentState(CurrentState.dealing)
+        setChips(chips - bet)
+        setMessage('Hit or stand?')
+        setPlayerCards([deck[deck.length - 1], deck[deck.length - 3]])
+        setBankCards([deck[deck.length - 2], deck[deck.length - 4]])
+        deck.splice(deck.length - 4, 4)
+        setCurrentState(CurrentState.playerTurn)
+      } else {
+        setMessage('No money, refresh the page')
+      }
+    };
+    const hit = () => {
+      if (currentState === CurrentState.playerTurn) {
+        setPlayerCards([...playerCards, deck[deck.length - 1]])
+        deck.splice(deck.length - 1, 1)
+      }
+      
+    };
+    const stand = () => {
     if (currentState === CurrentState.playerTurn) {
       setCurrentState(CurrentState.bankTurn)
     }
@@ -101,9 +106,10 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <Bank cards={bankCards} score={bankScore} state={currentState} message={message} />
-      <Player chips={chips} cards={playerCards} bet={bet} setBet={setBet} state={currentState} name={user ? user : 'Player'}
-        startDeal={startDeal} score={playerScore} hit={hit} stand={stand} />
+      <Message message={message}/>
+      <Bank cards={bankCards} score={bankScore} state={currentState} />
+      <Player chips={chips} cards={playerCards} name={user ? user : 'Player'} score={playerScore} />
+      <Control startDeal={startDeal} hit={hit} stand={stand} state={currentState} chips={chips} bet={bet} setBet={setBet} />
       <BoardButton user={user} setUser={setUser} score={chips} />
     </div>
   );
