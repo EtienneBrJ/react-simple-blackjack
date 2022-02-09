@@ -1,4 +1,5 @@
-export const getScore: any = {
+// Les noms qui commencent par "get" sont résesrvés au getters (function qui retourne une valeur). Du coup CardPoints est peut être plus adapté.
+export const CardPoints: any = {
     '2': 2,
     '3': 3,
     '4': 4,
@@ -14,32 +15,37 @@ export const getScore: any = {
     'A': 11,
 }
 
+const MAX_POINT_NUMBER = 21;
+
 export const generateDeck = (): string[] => {
-    const values = ['2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'];
-    const suits = ['H', 'S', 'D', 'C']
-    const _deck = []
-    for (let i = 0; i < suits.length; i++) {
-        for (let j = 0; j < values.length; j++) {
-            _deck.push(values[j].concat(suits[i]))
-        }
-    }
-    return _deck
+    // J'ai supprimé la variable values et je me suis basé sur les clés de CardPoints. Comme ça, si jamais tu ajoutes une entrées dans CardPoints, ca va se retrouver direct dans le deck
+    const suits = ['H', 'S', 'D', 'C'];
+    
+    // il est généralement plus simple d'utiliser des methodes comme reduce ou map. Les boucles `for` nuisent à la lisibilité
+    return Object.keys(CardPoints).reduce((acc, value) => {
+        return [
+            ...acc,
+            ...suits.map((suit) => `${value}${suit}`),
+        ]
+    }, [] as string[]);
 }
 
 export const calculateScore = (cards: string[]): number => {
-    let _score: number = 0;
-    let _aceCount: number = 0;
+    const totalAces = cards.filter((card) => card.startsWith('A'));
+    // On évite généralement le let, car on ne sait pas ou exactement il sera modifié
+    const aceUsed = [];
 
+    return cards.reduce((acc, card) => {
+        const score = acc + CardPoints[card[0]];
 
-    for (let i = 0; i < cards.length; i++) {
-        if (cards[i][0] === 'A') {
-            _aceCount++;
+        // J'ai ajouté une variable MAX_POINT_NUMBER pour éviter les `magical numbers`
+        if(score > MAX_POINT_NUMBER && aceUsed.length < totalAces.length) {
+            aceUsed.push(card);
+            return score - 10;
         }
-        _score += getScore[cards[i][0]]
-        while (_score > 21 && _aceCount > 0) {
-            _score -= 10;
-            _aceCount--;
-        }
-    }
-    return _score
+
+        return score;
+
+    }, 0);
 }
+ 

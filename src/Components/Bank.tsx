@@ -1,4 +1,4 @@
-import { getScore } from "../utils";
+import { CardPoints } from "../utils";
 import '../Styles/Bank.css'
 
 interface BankInterface {
@@ -15,7 +15,7 @@ const Bank: React.FC<BankInterface> = ({ cards, score, message, state }) => {
     return (
         <div className='bankContainer'>
             <div className="bankInfo">
-                <p className="score">Dealer's score: {cards[1] && state < 3 ? score - getScore[cards[1][0]] : score}</p>
+                <p className="score">Dealer's score: {cards[1] && state < 3 ? score - CardPoints[cards[1][0]] : score}</p>
             </div>
             <div className="cardsContainer">
                 {cards.map((card, index) => (
