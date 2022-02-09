@@ -14,6 +14,8 @@
         }
     }
     &__display {
+        text-align: center;
+        color: $light;
         position: absolute;
         height: 584px;
         width: 400px;
@@ -28,11 +30,10 @@
             margin: 30px;
         }
         &__info {
-            height: 410px;
+            height: 400px;
             display: flex;
             justify-content: space-around;
             font-size: 1.1em;
-            border-bottom: 1px solid black;
             p {
                 padding: 5px;
             }
@@ -42,7 +43,6 @@
             &__title {
                 padding: 10px;
             }
-         
         }
     }
 }

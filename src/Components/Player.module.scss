@@ -2,17 +2,23 @@
 
 
 .player {
+    position: absolute;
+    top: 66%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     &__info {
         &__score {
-
-        }
-        &__bankroll {
-
+            color: $dark;
+            position: absolute;
+            bottom: -35%;
+            transform: translate(50%, -50%);
+            right: 50%;
         }
     }
     &__cards {
         &__card {
-            
+            width: 7em;
+            padding: 5px;
         }
     }
 }

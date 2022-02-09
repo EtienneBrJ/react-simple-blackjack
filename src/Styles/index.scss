@@ -4,15 +4,16 @@
 * {
     box-sizing: border-box;
     margin: 0;
-    overflow: hidden;
 }
 
 body {
+    overflow: hidden;
     width: 100%;
     color: $dark;
 }
 
 #root  {
+    font-family: $Poppins;
     height: 100vh;
     background-image: $bg-image;
     background-position: center;

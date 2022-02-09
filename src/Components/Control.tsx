@@ -1,4 +1,6 @@
 import { useRef } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCoins } from '@fortawesome/free-solid-svg-icons'
 import classes from './Control.module.scss'
 
 
@@ -9,7 +11,7 @@ interface ControlInterface {
     state: number;
     chips: number;
     bet: number;
-    setBet:any;
+    setBet: any;
 
 }
 
@@ -26,9 +28,12 @@ const Control: React.FC<ControlInterface> = ({ startDeal, hit, stand, state, chi
         <div className={classes.control}>
             {state === 0 || state === 5 ?
                 <div className={classes.control__bet}>
-                    <input ref={betAmount}type="range" min="0" max={chips} value={bet} placeholder="  Your bet" onChange={e => (checkBet(e) ? setBet(parseInt(e.target.value)) : setBet(0))} />
-                    <p>{betAmount.current?.value ? betAmount.current?.value : 0}</p>
-                    <button onClick={startDeal}>Start Deal</button>
+                    <div className={classes.control__bet__input}>
+                        <input ref={betAmount} type="range" min="0" max={chips} value={bet} placeholder="  Your bet" onChange={e => (checkBet(e) ? setBet(parseInt(e.target.value)) : setBet(0))} />
+                    </div>
+                    <div>
+                        <button className={classes.control__deal} onClick={startDeal}>Bet {betAmount.current?.value ? betAmount.current?.value : 0} <FontAwesomeIcon icon={faCoins} /></button>
+                    </div>
                 </div>
                 : null}
             {state === 2 ?
