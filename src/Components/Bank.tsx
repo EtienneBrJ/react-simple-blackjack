@@ -14,13 +14,14 @@ const Bank: React.FC<BankInterface> = ({ cards, score, state }) => {
 
     return (
         <div className={classes.bank}>
-            <div className={classes.bank__info}>
-                <p className="score">Dealer's score: {cards[1] && state < 3 ? score - getScore[cards[1][0]] : score}</p>
-            </div>
+            {state > 1 ?
+                <p className={classes.bank__score}>{cards[1] && state < 3 ? score - getScore[cards[1][0]] : score}</p>
+                : null
+            }
             <div className={classes.bank__cards}>
                 {cards.map((card, index) => (
                     card
-                        ? <img className="card" key={card} src={require(`../Cards/${index === 1 && state < 3 ? hiddenCard : card}.svg`)} alt={card} />
+                        ? <img className={classes.bank__cards__card} key={card} src={require(`../Cards/${index === 1 && state < 3 ? hiddenCard : card}.svg`)} alt={card} />
                         : null
                 ))}
             </div>

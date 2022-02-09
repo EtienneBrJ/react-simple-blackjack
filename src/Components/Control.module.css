@@ -1,1 +1,33 @@
-/* No CSS *//*# sourceMappingURL=Control.module.css.map */
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+.control {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.control__bet {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: auto;
+}
+
+.control__bet__input {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.control__action button {
+  margin: 5px;
+}
+/*# sourceMappingURL=Control.module.css.map */
