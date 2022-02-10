@@ -1,6 +1,6 @@
-import { getScore } from "../utils";
-
+import { CardPoints } from "../utils";
 import classes from './Bank.module.scss'
+
 
 interface BankInterface {
     cards: string[];
@@ -15,7 +15,7 @@ const Bank: React.FC<BankInterface> = ({ cards, score, state }) => {
     return (
         <div className={classes.bank}>
             {state > 1 ?
-                <p className={classes.bank__score}>{cards[1] && state < 3 ? score - getScore[cards[1][0]] : score}</p>
+                <p className={classes.bank__score}>{cards[1] && state < 3 ? score - CardPoints[cards[1][0]] : score}</p>
                 : null
             }
             <div className={classes.bank__cards}>
