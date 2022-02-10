@@ -41,13 +41,50 @@ export const calculateScore = (cards: string[]): number => {
         const score = acc + CardPoints[card[0]];
 
         // J'ai ajouté une variable MAX_POINT_NUMBER pour éviter les `magical numbers`
-        if(score > MAX_POINT_NUMBER && aceUsed.length < totalAces.length) {
-            aceUsed.push(card);
-            return score - 10;
+        if(score <= MAX_POINT_NUMBER || aceUsed.length >= totalAces.length) {
+            // Quand on a un `if`, on essaye toujours de retourner la condition la plus simple, c'est moins casse tête pour le cerveau :)
+            return score;
         }
 
-        return score;
+        aceUsed.push(card);
+        return score - 10;
 
     }, 0);
 }
+
+
+
+/**
+ * Quelques exemples d'utilisation des boucles
+ */
+
+ // exemple 1 : Peu lisible et difficile à comprendre
+ export const loopRules1 = (): number => {
+    const points = [10, 20, 40, 50];
+
+    let total = 0;
+    for(let i = 0; i < points.length; i++) {
+        // points[i] => un vrai casse tête pour le cerveau
+        total += points[i];
+    }
+    return total;
+ }
+
+// exemple 2 : Plus simple meme si on peut optimiser encore un peu
+export const loopRules2 = (): number => {
+    const points = [10, 20, 40, 50];
+
+    let total = 0;
+    for(const point of points) {
+        total += point;
+    }
+    return total;
+ }
+
+// exemple 3 : La plus efficace et moderne
+export const loopRules3 = (): number => {
+    const points = [10, 20, 40, 50];
+    return points.reduce((acc, point) => acc + point, 0);
+ }
+
  
