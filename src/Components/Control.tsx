@@ -19,9 +19,8 @@ const Control: React.FC<ControlInterface> = ({ startDeal, hit, stand, state, chi
 
     const betAmount = useRef<HTMLInputElement>(null)
 
-    const checkBet = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const _bet = parseInt(e.target.value)
-        return _bet <= chips && _bet >= 0 ? true : false
+    const checkBet = (_bet: number) => {
+        return _bet <= chips && _bet >= 0 // ? true : false, y'a pas besoin de la ternaire le AND retournera deja true ou false :)
     }
 
     return (
@@ -29,7 +28,11 @@ const Control: React.FC<ControlInterface> = ({ startDeal, hit, stand, state, chi
             {state === 0 || state === 5 ?
                 <div className={classes.control__bet}>
                     <div className={classes.control__bet__input}>
-                        <input ref={betAmount} type="range" min="0" max={chips} value={bet} placeholder="  Your bet" onChange={e => (checkBet(e) ? setBet(parseInt(e.target.value)) : setBet(0))} />
+                        <input ref={betAmount} type="range" min="0" max={chips} value={bet} placeholder="  Your bet" onChange={e => 
+                            {
+                                const _bet = parseInt(e.target.value);
+                                (checkBet(_bet) ? setBet(_bet) : setBet(0))}
+                            } />
                     </div>
                     <div>
                         <button className={classes.control__deal} onClick={startDeal}>Bet {betAmount.current?.value ? betAmount.current?.value : 0} <FontAwesomeIcon icon={faCoins} /></button>
