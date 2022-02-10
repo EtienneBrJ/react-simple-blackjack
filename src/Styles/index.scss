@@ -1,0 +1,22 @@
+@import "./variables.scss";
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body {
+    overflow: hidden;
+    width: 100%;
+    color: $dark;
+}
+
+#root  {
+    font-family: $Poppins;
+    height: 100vh;
+    background-image: $bg-image;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: $bg-size;
+}

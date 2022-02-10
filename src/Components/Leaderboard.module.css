@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+.leaderboard__btn {
+  position: absolute;
+  border: none;
+  background-color: transparent;
+  top: 2%;
+  right: 1%;
+  font-size: 1.5em;
+}
+
+.leaderboard__btn__cross {
+  margin: 0 7px;
+}
+
+.leaderboard__display {
+  text-align: center;
+  color: #e9e9e9;
+  position: absolute;
+  height: 584px;
+  width: 400px;
+  background-color: rgba(0, 0, 0, 0.801);
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.leaderboard__display__title {
+  font-size: 2em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 30px;
+}
+
+.leaderboard__display__info {
+  height: 400px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  font-size: 1.1em;
+}
+
+.leaderboard__display__info p {
+  padding: 5px;
+}
+
+.leaderboard__display__register {
+  text-align: center;
+}
+
+.leaderboard__display__register__title {
+  padding: 10px;
+}
+/*# sourceMappingURL=Leaderboard.module.css.map */

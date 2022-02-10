@@ -1,0 +1,22 @@
+@import "../Styles/variables.scss";
+
+.control {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    &__bet {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: auto;
+        &__input {
+            display: flex;
+        }
+    }
+    &__action {
+        button {
+            margin: 5px;
+        }
+    }
+}

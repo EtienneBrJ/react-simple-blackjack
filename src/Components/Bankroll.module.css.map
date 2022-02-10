@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,SAAS,CAAC;EACN,QAAQ,EAAE,QAAQ;EAClB,OAAO,EAAE,IAAI;EACb,SAAS,EAAE,KAAK;CACnB",
+    "sources": [
+        "Bankroll.module.scss"
+    ],
+    "names": [],
+    "file": "Bankroll.module.css"
+}

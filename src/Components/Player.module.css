@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+.player {
+  position: absolute;
+  top: 66%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.player__info__score {
+  color: #1d1d1d;
+  position: absolute;
+  bottom: -35%;
+  -webkit-transform: translate(50%, -50%);
+          transform: translate(50%, -50%);
+  right: 50%;
+}
+
+.player__cards__card {
+  width: 7em;
+  padding: 5px;
+}
+/*# sourceMappingURL=Player.module.css.map */

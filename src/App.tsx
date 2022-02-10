@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { generateDeck, calculateScore } from './utils'
+import Bankroll from './Components/Bankroll'
+import Message from './Components/Message'
 import BoardButton from './Components/Leaderboard'
-import Player from './Components/Player'
 import Bank from './Components/Bank'
-import './Styles/App.css'
+import Player from './Components/Player'
+import Control from './Components/Control'
 import _ from 'lodash'
 
 
@@ -18,87 +20,82 @@ const App: React.FC = () => {
     endRound,
   }
 
-  // Check useReducer? trop de state 
-  const [currentState, setCurrentState] = useState(CurrentState.bet)
-  const [deck, setDeck] = useState<string[]>([]);
+  const newShuffledDeck = _.shuffle(generateDeck())
 
-  const [bankCards, setBankCards] = useState<string[]>([]);
-  const [bankScore, setBankScore] = useState(0);
+  const [currentState, setCurrentState] = useState(CurrentState.bet)
   const [message, setMessage] = useState('Welcome! Place a bet')
 
-  const [chips, setChips] = useState(100);
+  const [deck, setDeck] = useState<string[]>(newShuffledDeck);
+  const [bankCards, setBankCards] = useState<string[]>([]);
+  const [bankScore, setBankScore] = useState(0);
+
+  const [user, setUser] = useState<string>();
   const [playerCards, setPlayerCards] = useState<string[]>([]);
-  const [user, setUser] = useState('Player');
   const [playerScore, setPlayerScore] = useState(0);
   const [bet, setBet] = useState(0);
+  const [chips, setChips] = useState(100);
+
 
   useEffect(() => {
-    if (playerScore > 21 && currentState > 1 && currentState < 4) {
+    if (calculateScore(playerCards) > 21 && currentState > 1 && currentState < 4) {
       setCurrentState(CurrentState.checkWinner)
     }
-    if (currentState > CurrentState.dealing) {
-      setPlayerScore(calculateScore(playerCards))
-      setBankScore(calculateScore(bankCards))
-    }
-
     if (currentState === CurrentState.bankTurn) {
-      if (bankScore < 17) {
-        const bCards: any = bankCards
-        bCards.push(deck.pop())
-        setBankCards(bCards)
+
+      if (calculateScore(bankCards) < 17) {
+        setBankCards([...bankCards, deck[deck.length - 1]])
+        deck.splice(deck.length - 1, 1)
         setBankScore(calculateScore(bankCards))
       } else {
-        setCurrentState(currentState + 1)
+        setCurrentState(CurrentState.checkWinner)
       }
     }
     if (currentState === CurrentState.checkWinner) {
+      setCurrentState(CurrentState.endRound)
       if ((playerScore > 21) || (bankScore > playerScore && bankScore <= 21)) {
         setMessage('You loose the round')
-        setCurrentState(CurrentState.endRound)
       } else if (bankScore === playerScore) {
         setChips(chips + bet)
         setMessage('Chop-chop')
-        setCurrentState(CurrentState.endRound)
       } else if (playerScore <= 21 && (bankScore > 21 || playerScore > bankScore)) {
-        setMessage('You win and double your bet')
         setChips(chips + bet * 2)
-        setCurrentState(CurrentState.endRound)
+        setMessage('You win and double your bet')
       }
     }
   }, [deck, bet, chips, bankCards, bankScore, playerCards, playerScore, currentState,
     CurrentState.endRound, CurrentState.dealing, CurrentState.checkWinner, CurrentState.bankTurn,])
 
-
-  const initializeNewRound = () => {
-    setBankScore(0)
-    setPlayerScore(0)
-    setCurrentState(CurrentState.dealing)
-    setMessage('Hit or stand?')
-  }
-  const startDeal = () => {
-    initializeNewRound()
-    let _deck = _.shuffle(generateDeck())
-    const tmpPlayerCards: string[] = []
-    const tmpBankCards: string[] = []
-    for (let i = 0; i < 4; i++) {
-      if (i % 2 === 0) {
-        tmpPlayerCards.push(_deck.pop())
-      } else {
-        tmpBankCards.push(_deck.pop())
-      }
+  useEffect(() => {
+    setDeck(deck)
+    if (deck.length < 6) {
+      setDeck(newShuffledDeck.concat(deck))
     }
-    setPlayerCards(tmpPlayerCards)
-    setBankCards(tmpBankCards)
-    setDeck(_deck)
-    setChips(chips - bet)
-    setCurrentState(CurrentState.playerTurn)
+  }, [deck, newShuffledDeck])
+
+  useEffect(() => {
+    if (currentState > 0 && currentState < 5) {
+      setPlayerScore(calculateScore(playerCards))
+      setBankScore(calculateScore(bankCards))
+    }
+  }, [bankCards, playerCards, currentState])
+
+  const startDeal = () => {
+    if (bet >= 0 && chips > 0) {
+      setCurrentState(CurrentState.dealing)
+      setChips(chips - bet)
+      setMessage('Hit or stand?')
+      setPlayerCards([deck[deck.length - 1], deck[deck.length - 3]])
+      setBankCards([deck[deck.length - 2], deck[deck.length - 4]])
+      deck.splice(deck.length - 4, 4)
+      setCurrentState(CurrentState.playerTurn)
+    } else {
+      setMessage('No money, refresh the page')
+    }
   };
   const hit = () => {
     if (currentState === CurrentState.playerTurn) {
-      let pCards: any = playerCards
-      pCards.push(deck.pop())
-      setPlayerCards(pCards)
-      setPlayerScore(calculateScore(pCards))
+      setPlayerCards([...playerCards, deck[deck.length - 1]])
+      deck.splice(deck.length - 1, 1)
     }
 
   };
@@ -110,9 +107,11 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <Bank cards={bankCards} score={bankScore} state={currentState} message={message} />
-      <Player chips={chips} cards={playerCards} bet={bet} setBet={setBet} state={currentState} name={user}
-        startDeal={startDeal} score={playerScore} hit={hit} stand={stand} />
+      <Bankroll chips={chips} />
+      <Message message={message} />
+      <Bank cards={bankCards} score={bankScore} state={currentState} />
+      <Player cards={playerCards} score={playerScore} />
+      <Control startDeal={startDeal} hit={hit} stand={stand} state={currentState} chips={chips} bet={bet} setBet={setBet} />
       <BoardButton user={user} setUser={setUser} score={chips} />
     </div>
   );

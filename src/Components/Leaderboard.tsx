@@ -1,108 +1,89 @@
-import '../Styles/Leaderboard.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrophy, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState, useRef } from 'react'
-import { doc, setDoc, collection, getDocs } from "firebase/firestore";
+import { doc, setDoc, collection, getDoc, getDocs } from "firebase/firestore";
 import { db } from '../firebase-config'
+
+import classes from './Leaderboard.module.scss'
 
 
 const blackjackCollection = collection(db, "blackjack");
 
 interface Board {
-    user: string;
+    user: string | undefined;
     score: number;
     setUser: any;
-    leaderboard?: { user: string; score: number; }[];
-    setLeaderboard?: any;
 }
 
 const BoardButton: React.FC<Board> = ({ user, setUser, score }) => {
 
-
     const [isClicked, setIsClicked] = useState(false)
-    const [leaderboard, setLeaderboard] = useState<{ user: string; score: number; }[]>([])
 
-    const toggleBoard = () => {
-        setIsClicked(!isClicked)
-    }
-
-    useEffect(() => {
-        console.log('Entrée useEffect')
-        leaderboard?.forEach((element) => {
-            if (element.user === user && element.score < score) {
-                setDoc(doc(db, "blackjack", user + '\'s score'), {
-                    user,
-                    score,
-                });
-            }
-        })
-
-        if (isClicked) {
-            const getLeaderboard = async () => {
-                const data = await getDocs(blackjackCollection);
-                console.log(data.docs)
-                setLeaderboard(data.docs.map((doc) => ({ user: doc.data().user, score: doc.data().score })))
-            }
-            getLeaderboard()
-        }
-
-    }, [isClicked, score, user])
-
-    return <div className='leaderboardContainer'>
-        <button className='leaderboardBtn' onClick={toggleBoard} >
-            {isClicked ? <FontAwesomeIcon className='cross' icon={faTimes} /> : <FontAwesomeIcon className='trophy' icon={faTrophy} />}
+    return <div className={classes.leaderboard}>
+        <button className={classes.leaderboard__btn} onClick={() => setIsClicked(!isClicked)} >
+            {isClicked ? <FontAwesomeIcon className={classes.leaderboard__btn__cross} icon={faTimes} /> : <FontAwesomeIcon className='trophy' icon={faTrophy} />}
         </button>
-        {isClicked ? <Leaderboard user={user} setUser={setUser} score={score}
-            setLeaderboard={setLeaderboard} leaderboard={leaderboard} /> : null}
+        {isClicked ? <Leaderboard user={user} setUser={setUser} score={score} /> : null}
     </div>
-
 }
 
+const Leaderboard: React.FC<Board> = ({ user, setUser, score }) => {
 
-const Leaderboard: React.FC<Board> = ({ user, setUser, score, leaderboard }) => {
-
-
+    const [leaderboard, setLeaderboard] = useState<{ user: string; score: number; }[]>([])
     const inputValue = useRef<HTMLInputElement>(null)
 
-    const addUserDocument = () => {
-        setDoc(doc(db, "blackjack", inputValue.current?.value + '\'s score'), {
-            user: inputValue.current?.value,
-            score: score,
-        });
-        setUser(inputValue.current?.value)
-    }
+    useEffect(() => {
+        const checkAndUpdateUser = async () => {
+            const docRef = doc(db, 'blackjack', user + '\'s score')
+            const docData = await getDoc(docRef)
+            if ((docData.data()?.user !== user) || (docData.data()?.user === user && docData.data()?.score < score)) {
+                setDoc(docRef, { user, score })
+            }
+        }
+        checkAndUpdateUser()
+    }, [score, user])
 
-    return <div className='leaderboardContent'>
-        <div className='leaderboardDisplay'>
-            <h1>Leaderboard</h1>
-            <div className='leaderboard'>
-                <div className='rankColumn'>
-                    <p className='title'>Rank</p>
+    useEffect(() => {
+        const getLeaderboard = async () => {
+            const data = await getDocs(blackjackCollection);
+            setLeaderboard(data.docs.map((doc) => ({ user: doc.data().user, score: doc.data().score })))
+        }
+        getLeaderboard()
+    }, [score, user])
+
+    return (
+        <div className={classes.leaderboard__display}>
+            <h1 className={classes.leaderboard__display__title}>Leaderboard</h1>
+            <div className={classes.leaderboard__display__info}>
+                <div>
+                    <h4>Rank</h4>
                     {leaderboard
                         ? leaderboard.sort((a, b) => b.score - a.score).map((line, idx) => <p key={line.user}>{idx + 1}</p>)
                         : null}
 
                 </div>
-                <div className='userColumn'>
-                    <p className='title'>Name</p>
+                <div>
+                    <h4>Name</h4>
                     {leaderboard
                         ? leaderboard.sort((a, b) => b.score - a.score).map((line) => <p key={line.user}>{line.user}</p>)
                         : null}
                 </div>
-                <div className='scoreColumn'>
-                    <p className='title'>Score</p>
+                <div>
+                    <h4>Score</h4>
                     {leaderboard
                         ? leaderboard.sort((a, b) => b.score - a.score).map((line) => <p key={line.user}>{line.score}</p>)
                         : null}
                 </div>
             </div>
-            <div className='leaderboardRegister'>
-                <p>Add your name on the board:</p>
-                <input ref={inputValue} type="text" />
-                <button onClick={addUserDocument}>Register</button>
+            <div className={classes.leaderboard__display__register}>
+                <p className={classes.leaderboard__display__register__title}>Add your name on the board:</p>
+                <div className={classes.leaderboard__display__register__form}>
+                    <input ref={inputValue} type="text" />
+                    <button onClick={() => inputValue.current?.value.trim() ? setUser(inputValue.current?.value) : null}>Register</button>
+                </div>
             </div>
         </div>
-    </div>
+    )
 }
 
 export default BoardButton;
