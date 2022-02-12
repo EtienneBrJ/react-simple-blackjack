@@ -3,33 +3,18 @@ import { faTrophy, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState, useRef } from 'react'
 import { doc, setDoc, collection, getDoc, getDocs } from "firebase/firestore";
 import { db } from '../firebase-config'
+import { useAppDispatch, useAppSelector } from '../store/hook';
+import { setLeaderboard } from '../store/features/leaderboard';
 import classes from './Leaderboard.module.scss'
-import { useAppSelector } from '../store/hook';
 
 const blackjackCollection = collection(db, "blackjack");
 
 const BoardButton: React.FC = () => {
 
-    const [isClicked, setIsClicked] = useState(false)
-
-    return <div className={classes.leaderboard}>
-        <button className={classes.leaderboard__btn} onClick={() => setIsClicked(!isClicked)} >
-            {isClicked ? <FontAwesomeIcon className={classes.leaderboard__btn__cross} icon={faTimes} /> : <FontAwesomeIcon className='trophy' icon={faTrophy} />}
-        </button>
-        {isClicked ? <Leaderboard /> : null}
-    </div>
-}
-
-const Leaderboard: React.FC = () => {
-
-
-    // To do : Remonter l'update user dans BoardButton, sinon s'update que quand ce component est affiché
-    // créer une slice pour leaderboard et user
-    const score = useAppSelector((state) => state.bankroll.value)
-    const [leaderboard, setLeaderboard] = useState<{ user: string; score: number; }[]>([])
+    const dispatch = useAppDispatch()
     const [user, setUser] = useState<string>();
-
-    const inputValue = useRef<HTMLInputElement>(null)
+    const [isClicked, setIsClicked] = useState(false)
+    const score = useAppSelector((state) => state.bankroll.value)
 
     useEffect(() => {
         const checkAndUpdateUser = async () => {
@@ -45,10 +30,23 @@ const Leaderboard: React.FC = () => {
     useEffect(() => {
         const getLeaderboard = async () => {
             const data = await getDocs(blackjackCollection);
-            setLeaderboard(data.docs.map((doc) => ({ user: doc.data().user, score: doc.data().score })))
+            dispatch(setLeaderboard(data.docs.map((doc) => ({ user: doc.data().user, score: doc.data().score }))))
         }
         getLeaderboard()
-    }, [score, user])
+    }, [score, user, setUser, dispatch])
+
+    return <div className={classes.leaderboard}>
+        <button className={classes.leaderboard__btn} onClick={() => setIsClicked(!isClicked)} >
+            {isClicked ? <FontAwesomeIcon className={classes.leaderboard__btn__cross} icon={faTimes} /> : <FontAwesomeIcon className='trophy' icon={faTrophy} />}
+        </button>
+        {isClicked ? <Leaderboard setUser={setUser} /> : null}
+    </div>
+}
+
+const Leaderboard: React.FC<any> = ({ setUser }) => {
+
+    const leaderboard = useAppSelector((state) => state.leaderboard.value)
+    const inputValue = useRef<HTMLInputElement>(null)
 
     return (
         <div className={classes.leaderboard__display}>
@@ -57,20 +55,19 @@ const Leaderboard: React.FC = () => {
                 <div>
                     <h4>Rank</h4>
                     {leaderboard
-                        ? leaderboard.sort((a, b) => b.score - a.score).map((line, idx) => <p key={line.user}>{idx + 1}</p>)
+                        ? leaderboard.map((line, idx) => <p key={line.user}>{idx + 1}</p>)
                         : null}
-
                 </div>
                 <div>
                     <h4>Name</h4>
                     {leaderboard
-                        ? leaderboard.sort((a, b) => b.score - a.score).map((line) => <p key={line.user}>{line.user}</p>)
+                        ? leaderboard.map((line) => <p key={line.user}>{line.user}</p>)
                         : null}
                 </div>
                 <div>
                     <h4>Score</h4>
                     {leaderboard
-                        ? leaderboard.sort((a, b) => b.score - a.score).map((line) => <p key={line.user}>{line.score}</p>)
+                        ? leaderboard.map((line) => <p key={line.user}>{line.score}</p>)
                         : null}
                 </div>
             </div>

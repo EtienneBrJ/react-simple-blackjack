@@ -32,8 +32,7 @@ const Control: React.FC = () => {
       dispatch(setState(State.dealing))
       dispatch(setBankroll(chips - bet))
       dispatch(setMessage('Hit or stand?'))
-      // Doit regarder comment appeler un reducer sans arguments, `deal` et `deal()` ne marche pas
-      dispatch(deal(''))
+      dispatch(deal())
       dispatch(setState(State.playerTurn))
     } else {
       dispatch(setMessage('No money, refresh the page'))

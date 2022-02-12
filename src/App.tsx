@@ -36,9 +36,6 @@ const App: React.FC = () => {
 
   // Je dois regarder les services
   useEffect(() => {
-    if (calculateScore(playerCards) > 21 && appState > 1 && appState < 4) {
-      dispatch(setState(State.checkWinner))
-    }
     if (appState === State.bankTurn) {
       if (calculateScore(bankCards) < 17) {
         dispatch(hit('bank'))
@@ -48,7 +45,6 @@ const App: React.FC = () => {
       }
     }
     if (appState === State.checkWinner) {
-      dispatch(setState(State.endRound))
       if ((playerScore > 21) || (bankScore > playerScore && bankScore <= 21)) {
         dispatch(setMessage('You loose the round'))
       } else if (bankScore === playerScore) {
@@ -58,8 +54,16 @@ const App: React.FC = () => {
         dispatch(setBankroll(chips + bet * 2))
         dispatch(setMessage('You win and double your bet'))
       }
+      dispatch(setState(State.endRound))
     }
   }, [appState, bankCards, bankScore, bet, chips, playerCards, playerScore, dispatch])
+
+
+  useEffect(() => {
+    if (playerScore > 21 && appState > 1 && appState < 4) {
+      dispatch(setState(State.checkWinner))
+    }
+  }, [appState, playerScore, dispatch])
 
   useEffect(() => {
     if (deck.length < 6) {

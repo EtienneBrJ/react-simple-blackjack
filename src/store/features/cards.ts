@@ -24,7 +24,7 @@ export const cardsSlice = createSlice({
     name: "cards",
     initialState: initialCards,
     reducers: {
-        deal: (state, action) => {
+        deal: (state) => {
             const deck = state.value.deck
             state.value.player = [deck[deck.length - 1], deck[deck.length - 3]]
             state.value.bank = [deck[deck.length - 2], deck[deck.length - 4]]

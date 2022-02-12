@@ -5,6 +5,7 @@ import bankrollReducer from './features/bankroll'
 import scoreReducer from './features/score'
 import cardsReducer from './features/cards'
 import betReducer from './features/bet'
+import leaderboardReducer from './features/leaderboard'
 
 export const store = configureStore({
     reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
         score: scoreReducer,
         cards: cardsReducer,
         bet: betReducer,
+        leaderboard: leaderboardReducer
     },
 })
 
