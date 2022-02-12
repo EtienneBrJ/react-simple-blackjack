@@ -3,7 +3,7 @@
     "mappings": "ACAA,OAAO,CAAC,oEAAI;ADGZ,AAAA,KAAK,CAAC;EACF,QAAQ,EAAE,QAAQ;EAClB,GAAG,EAAE,GAAG;EACR,IAAI,EAAE,GAAG;EACT,SAAS,EAAE,qBAAqB;CAcnC;;AAbI,AAAD,YAAQ,CAAC;EACL,KAAK,ECLN,OAAe;EDMd,QAAQ,EAAE,QAAQ;EAClB,GAAG,EAAE,IAAI;EACT,SAAS,EAAE,oBAAoB;EAC/B,KAAK,EAAE,GAAG;CACb;;AAEI,AAAD,kBAAO,CAAC;EACJ,KAAK,EAAE,GAAG;EACV,OAAO,EAAE,GAAG;CACf",
     "sources": [
         "Bank.module.scss",
-        "../Styles/variables.scss"
+        "../styles/variables.scss"
     ],
     "names": [],
     "file": "Bank.module.css"
