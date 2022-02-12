@@ -1,13 +1,12 @@
 import classes from './Player.module.scss'
+import { useAppSelector } from '../store/hook'
+
+const Player: React.FC = () => {
+
+    const score = useAppSelector((state) => state.score.value.player)
+    const cards = useAppSelector((state) => state.cards.value.player)
 
 
-interface PlayerInterface {
-    cards: string[];
-    score: number;
-}
-
-
-const Player: React.FC<PlayerInterface> = ({ cards, score }) => {
     return (
         <div className={classes.player}>
             <div className={classes.player__info}>
@@ -16,7 +15,7 @@ const Player: React.FC<PlayerInterface> = ({ cards, score }) => {
             <div className={classes.player__cards}>
                 {cards.map((card) => (
                     card
-                        ? <img className={classes.player__cards__card} key={card} src={require(`../Cards/${card}.svg`)} alt={card} />
+                        ? <img className={classes.player__cards__card} key={card} src={require(`../assets/${card}.svg`)} alt={card} />
                         : null
                 ))}
             </div>

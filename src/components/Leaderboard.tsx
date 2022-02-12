@@ -3,19 +3,12 @@ import { faTrophy, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState, useRef } from 'react'
 import { doc, setDoc, collection, getDoc, getDocs } from "firebase/firestore";
 import { db } from '../firebase-config'
-
 import classes from './Leaderboard.module.scss'
-
+import { useAppSelector } from '../store/hook';
 
 const blackjackCollection = collection(db, "blackjack");
 
-interface Board {
-    user: string | undefined;
-    score: number;
-    setUser: any;
-}
-
-const BoardButton: React.FC<Board> = ({ user, setUser, score }) => {
+const BoardButton: React.FC = () => {
 
     const [isClicked, setIsClicked] = useState(false)
 
@@ -23,13 +16,19 @@ const BoardButton: React.FC<Board> = ({ user, setUser, score }) => {
         <button className={classes.leaderboard__btn} onClick={() => setIsClicked(!isClicked)} >
             {isClicked ? <FontAwesomeIcon className={classes.leaderboard__btn__cross} icon={faTimes} /> : <FontAwesomeIcon className='trophy' icon={faTrophy} />}
         </button>
-        {isClicked ? <Leaderboard user={user} setUser={setUser} score={score} /> : null}
+        {isClicked ? <Leaderboard /> : null}
     </div>
 }
 
-const Leaderboard: React.FC<Board> = ({ user, setUser, score }) => {
+const Leaderboard: React.FC = () => {
 
+
+    // To do : Remonter l'update user dans BoardButton, sinon s'update que quand ce component est affiché
+    // créer une slice pour leaderboard et user
+    const score = useAppSelector((state) => state.bankroll.value)
     const [leaderboard, setLeaderboard] = useState<{ user: string; score: number; }[]>([])
+    const [user, setUser] = useState<string>();
+
     const inputValue = useRef<HTMLInputElement>(null)
 
     useEffect(() => {

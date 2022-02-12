@@ -1,13 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoins } from '@fortawesome/free-solid-svg-icons'
-
 import classes from './Bankroll.module.scss'
+import { useAppSelector } from '../store/hook'
 
-interface BankrollInterface {
-    chips: number;
-}
 
-const Bankroll: React.FC<BankrollInterface> = ({ chips }) => {
+const Bankroll: React.FC = () => {
+
+    const chips = useAppSelector((state) => state.bankroll.value)
     return (
         <div className={classes.bankroll}>
             <p>{chips} <FontAwesomeIcon icon={faCoins} /></p>
